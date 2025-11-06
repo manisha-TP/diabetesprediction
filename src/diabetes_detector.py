@@ -185,7 +185,7 @@ def main():
     
     # Load and preprocess data
     print("Loading data...")
-    X, y = detector.load_data('data/diabetes.csv')
+    X, y = detector.load_data('data/sample_diabetes.csv')
     
     # Split data
     X_train, X_test, y_train, y_test = train_test_split(
