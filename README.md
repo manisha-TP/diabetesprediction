@@ -1,0 +1,2 @@
+# diabetesprediction
+Prediction_of_diabetes
