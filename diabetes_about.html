@@ -1,0 +1,252 @@
+{% extends "diabetes_base.html" %}
+
+{% block title %}About Diabetes Risk Predictor{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold mb-4">
+                    <i class="fas fa-info-circle me-3"></i>
+                    About Our Diabetes Risk Predictor
+                </h1>
+                <p class="lead mb-4">
+                    Learn how our AI-powered tool works and understand diabetes risk factors
+                </p>
+            </div>
+            <div class="col-lg-4 text-center">
+                <i class="fas fa-heartbeat icon-large text-white-50"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <!-- How It Works -->
+            <div class="card mb-5">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="fas fa-cogs me-2"></i>
+                        How Our Predictor Works
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <p class="mb-4">
+                        Our diabetes risk predictor uses a machine learning model trained on health data patterns 
+                        to assess your likelihood of developing diabetes based on key risk factors.
+                    </p>
+                    
+                    <h5><i class="fas fa-brain me-2"></i>Machine Learning Model</h5>
+                    <ul class="mb-4">
+                        <li><strong>Algorithm:</strong> Random Forest Classifier</li>
+                        <li><strong>Training Data:</strong> Synthetic dataset based on medical research</li>
+                        <li><strong>Accuracy:</strong> Trained and validated for educational purposes</li>
+                        <li><strong>Features:</strong> 7 key health indicators</li>
+                    </ul>
+
+                    <h5><i class="fas fa-chart-line me-2"></i>Risk Assessment Process</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ol>
+                                <li>Data collection from user input</li>
+                                <li>Feature scaling and normalization</li>
+                                <li>Model prediction calculation</li>
+                                <li>Risk percentage determination</li>
+                            </ol>
+                        </div>
+                        <div class="col-md-6">
+                            <ol start="5">
+                                <li>Risk level categorization</li>
+                                <li>Personalized recommendations</li>
+                                <li>Result presentation</li>
+                                <li>Educational guidance</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Factors -->
+            <div class="card mb-5">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Key Diabetes Risk Factors
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-birthday-cake me-2"></i>Age</h5>
+                            <p>Risk increases with age, especially after 45 years. The body's ability to process glucose may decline over time.</p>
+
+                            <h5><i class="fas fa-weight me-2"></i>Body Mass Index (BMI)</h5>
+                            <p>Higher BMI (especially >25) increases insulin resistance. Excess weight affects how your body uses insulin.</p>
+
+                            <h5><i class="fas fa-users me-2"></i>Family History</h5>
+                            <p>Genetic factors play a significant role. Having a parent or sibling with diabetes increases your risk.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-stethoscope me-2"></i>Common Symptoms</h5>
+                            <ul>
+                                <li><strong>Frequent Urination:</strong> High blood sugar causes kidneys to work harder</li>
+                                <li><strong>Excessive Thirst:</strong> Body tries to replace fluids lost through urination</li>
+                                <li><strong>Unusual Fatigue:</strong> Cells can't get enough glucose for energy</li>
+                                <li><strong>Blurred Vision:</strong> High blood sugar affects eye lens shape</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Diabetes -->
+            <div class="card mb-5">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="fas fa-heartbeat me-2"></i>
+                        Understanding Diabetes
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="text-center mb-4">
+                                <i class="fas fa-chart-pie fa-3x text-primary mb-3"></i>
+                                <h5>Type 1 Diabetes</h5>
+                                <p class="small">Autoimmune condition where the body doesn't produce insulin. Usually develops in childhood.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center mb-4">
+                                <i class="fas fa-chart-line fa-3x text-warning mb-3"></i>
+                                <h5>Type 2 Diabetes</h5>
+                                <p class="small">Body doesn't use insulin effectively. Most common type, often preventable through lifestyle changes.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center mb-4">
+                                <i class="fas fa-baby fa-3x text-info mb-3"></i>
+                                <h5>Gestational</h5>
+                                <p class="small">Develops during pregnancy. Usually resolves after delivery but increases future risk.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="mt-4"><i class="fas fa-shield-alt me-2"></i>Prevention Strategies</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Maintain healthy weight</li>
+                                <li>Regular physical activity</li>
+                                <li>Balanced diet low in sugar</li>
+                                <li>Regular health screenings</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Avoid smoking</li>
+                                <li>Limit alcohol consumption</li>
+                                <li>Manage stress effectively</li>
+                                <li>Get adequate sleep</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Important Disclaimers -->
+            <div class="card mb-5">
+                <div class="card-header bg-warning text-dark">
+                    <h3 class="mb-0">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        Important Disclaimers
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <h5><i class="fas fa-user-md me-2"></i>Medical Advice</h5>
+                        <p class="mb-0">
+                            This tool is for educational purposes only and should NOT be used as a substitute for professional medical advice, 
+                            diagnosis, or treatment. Always consult with qualified healthcare providers regarding health concerns.
+                        </p>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <h5><i class="fas fa-database me-2"></i>Model Limitations</h5>
+                        <ul class="mb-0">
+                            <li>Based on synthetic training data for demonstration</li>
+                            <li>Limited to specific risk factors</li>
+                            <li>Cannot account for all individual health variations</li>
+                            <li>Results should be interpreted with caution</li>
+                        </ul>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <h5><i class="fas fa-clipboard-check me-2"></i>When to Seek Medical Attention</h5>
+                        <p class="mb-0">
+                            Consult a healthcare provider if you experience multiple diabetes symptoms, have high risk factors, 
+                            or if this assessment indicates moderate to high risk. Professional testing includes blood glucose, 
+                            HbA1c, and other comprehensive evaluations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="card mb-5">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>
+                        Diabetes Statistics
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h2 class="text-primary">463M</h2>
+                                <p class="mb-0">Adults worldwide with diabetes</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h2 class="text-warning">90%</h2>
+                                <p class="mb-0">Have Type 2 diabetes</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h2 class="text-info">1 in 2</h2>
+                                <p class="mb-0">Cases are undiagnosed</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h2 class="text-success">58%</h2>
+                                <p class="mb-0">Type 2 cases preventable</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-center text-muted mt-3">
+                        <small>Source: International Diabetes Federation (IDF) Diabetes Atlas</small>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="text-center">
+                <a href="{{ url_for('home') }}" class="btn btn-primary btn-lg me-3">
+                    <i class="fas fa-calculator me-2"></i>Take Assessment
+                </a>
+                <a href="https://www.diabetes.org" target="_blank" class="btn btn-outline-info btn-lg">
+                    <i class="fas fa-external-link-alt me-2"></i>Learn More About Diabetes
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

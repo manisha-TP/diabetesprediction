@@ -1,0 +1,249 @@
+{% extends "diabetes_base.html" %}
+
+{% block title %}Diabetes Risk Assessment - Results{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Back Button -->
+            <div class="mb-4">
+                <a href="{{ url_for('home') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Take Another Assessment
+                </a>
+            </div>
+
+            <!-- Risk Assessment Results -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="fas fa-chart-line me-2"></i>
+                        Your Diabetes Risk Assessment
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="risk-card">
+                                <div class="risk-percentage text-{{ result.risk_color }}">
+                                    {{ result.risk_percentage }}%
+                                </div>
+                                <div class="risk-level">
+                                    <span class="badge bg-{{ result.risk_color }} fs-6 px-3 py-2">
+                                        {{ result.risk_level }} Risk
+                                    </span>
+                                </div>
+                                
+                                {% if result.risk_level == 'Low' %}
+                                <p class="text-muted">Your current risk factors suggest a low probability of diabetes.</p>
+                                {% elif result.risk_level == 'Moderate' %}
+                                <p class="text-muted">You have some risk factors that suggest moderate diabetes risk.</p>
+                                {% else %}
+                                <p class="text-muted">Your risk factors indicate a higher probability of diabetes development.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-user me-2"></i>Your Information</h5>
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td><i class="fas fa-birthday-cake me-2"></i>Age:</td>
+                                        <td><strong>{{ user_input.age }} years</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-weight me-2"></i>BMI:</td>
+                                        <td>
+                                            <strong>{{ user_input.bmi }}</strong>
+                                            {% if user_input.bmi < 18.5 %}
+                                                <small class="text-info">(Underweight)</small>
+                                            {% elif user_input.bmi < 25 %}
+                                                <small class="text-success">(Normal)</small>
+                                            {% elif user_input.bmi < 30 %}
+                                                <small class="text-warning">(Overweight)</small>
+                                            {% else %}
+                                                <small class="text-danger">(Obese)</small>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-users me-2"></i>Family History:</td>
+                                        <td>
+                                            {% if user_input.family_history %}
+                                                <span class="text-warning">Yes</span>
+                                            {% else %}
+                                                <span class="text-success">No</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-symptoms me-2"></i>Symptoms:</td>
+                                        <td>
+                                            {% set symptom_count = user_input.frequent_urination + user_input.excessive_thirst + user_input.fatigue + user_input.blurred_vision %}
+                                            <strong>{{ symptom_count }}/4</strong>
+                                            {% if symptom_count == 0 %}
+                                                <small class="text-success">(None reported)</small>
+                                            {% elif symptom_count <= 2 %}
+                                                <small class="text-warning">(Some symptoms)</small>
+                                            {% else %}
+                                                <small class="text-danger">(Multiple symptoms)</small>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Symptoms -->
+            {% set symptoms_present = [] %}
+            {% if user_input.frequent_urination %}{% set _ = symptoms_present.append('Frequent Urination') %}{% endif %}
+            {% if user_input.excessive_thirst %}{% set _ = symptoms_present.append('Excessive Thirst') %}{% endif %}
+            {% if user_input.fatigue %}{% set _ = symptoms_present.append('Unusual Fatigue') %}{% endif %}
+            {% if user_input.blurred_vision %}{% set _ = symptoms_present.append('Blurred Vision') %}{% endif %}
+
+            {% if symptoms_present %}
+            <div class="card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Symptoms You Reported
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for symptom in symptoms_present %}
+                        <div class="col-md-6 mb-2">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-warning me-2"></i>
+                                <span>{{ symptom }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if symptoms_present|length >= 2 %}
+                    <div class="alert alert-warning mt-3">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Multiple symptoms may indicate the need for medical evaluation.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Recommendations -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        Personalized Recommendations
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="recommendations">
+                        {% for recommendation in result.recommendations %}
+                        <div class="recommendation-item">
+                            {{ recommendation }}
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Important Disclaimer -->
+                    <div class="alert alert-info mt-4">
+                        <h6><i class="fas fa-info-circle me-2"></i>Important Disclaimer</h6>
+                        <p class="mb-0">
+                            This assessment is for educational purposes only and should not replace professional medical advice. 
+                            If you have concerns about diabetes or any health condition, please consult with a qualified healthcare provider.
+                        </p>
+                    </div>
+
+                    <!-- Risk Factor Breakdown -->
+                    <div class="mt-4">
+                        <h6><i class="fas fa-chart-bar me-2"></i>Risk Factor Analysis</h6>
+                        <div class="row">
+                            <div class="col-md-3 text-center">
+                                <div class="p-3 bg-light rounded">
+                                    <i class="fas fa-birthday-cake fa-2x {% if user_input.age > 45 %}text-warning{% else %}text-success{% endif %}"></i>
+                                    <div class="mt-2">
+                                        <strong>Age</strong>
+                                        <div class="small">
+                                            {% if user_input.age > 45 %}Higher Risk{% else %}Lower Risk{% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <div class="p-3 bg-light rounded">
+                                    <i class="fas fa-weight fa-2x {% if user_input.bmi > 25 %}text-warning{% else %}text-success{% endif %}"></i>
+                                    <div class="mt-2">
+                                        <strong>BMI</strong>
+                                        <div class="small">
+                                            {% if user_input.bmi > 25 %}Higher Risk{% else %}Normal Risk{% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <div class="p-3 bg-light rounded">
+                                    <i class="fas fa-users fa-2x {% if user_input.family_history %}text-warning{% else %}text-success{% endif %}"></i>
+                                    <div class="mt-2">
+                                        <strong>Family History</strong>
+                                        <div class="small">
+                                            {% if user_input.family_history %}Higher Risk{% else %}No Risk{% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <div class="p-3 bg-light rounded">
+                                    {% set symptom_count = user_input.frequent_urination + user_input.excessive_thirst + user_input.fatigue + user_input.blurred_vision %}
+                                    <i class="fas fa-stethoscope fa-2x {% if symptom_count > 1 %}text-warning{% else %}text-success{% endif %}"></i>
+                                    <div class="mt-2">
+                                        <strong>Symptoms</strong>
+                                        <div class="small">
+                                            {% if symptom_count > 1 %}Multiple Present{% else %}Minimal{% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="text-center mt-4">
+                <a href="{{ url_for('home') }}" class="btn btn-primary me-3">
+                    <i class="fas fa-redo me-2"></i>Take Another Assessment
+                </a>
+                <a href="{{ url_for('about') }}" class="btn btn-outline-info">
+                    <i class="fas fa-info-circle me-2"></i>Learn More About Diabetes
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Print functionality
+    function printResults() {
+        window.print();
+    }
+
+    // Share functionality (if needed)
+    function shareResults() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Diabetes Risk Assessment Results',
+                text: 'I completed a diabetes risk assessment. Risk level: {{ result.risk_level }}',
+                url: window.location.href
+            });
+        }
+    }
+</script>
+{% endblock %}

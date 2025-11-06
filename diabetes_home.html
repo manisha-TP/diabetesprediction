@@ -1,0 +1,274 @@
+{% extends "diabetes_base.html" %}
+
+{% block title %}Diabetes Risk Assessment - Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    <i class="fas fa-heartbeat me-3"></i>
+                    Assess Your Diabetes Risk
+                </h1>
+                <p class="lead mb-4">
+                    Get a quick assessment of your diabetes risk using our AI-powered prediction model. 
+                    Enter your basic health information to receive personalized insights and recommendations.
+                </p>
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-shield-alt text-warning me-2"></i>
+                    <small>Secure • Private • Educational Use Only</small>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <i class="fas fa-user-md icon-large text-white-50"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    {% if error %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        {{ error }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endif %}
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="fas fa-clipboard-list me-2"></i>
+                        Health Assessment Form
+                    </h3>
+                    <p class="mb-0 mt-2 opacity-75">
+                        Please provide accurate information for the most reliable assessment
+                    </p>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('predict') }}" id="diabetesForm">
+                        <!-- Basic Information -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="age" class="form-label">
+                                    <i class="fas fa-birthday-cake me-2"></i>Age (years)
+                                </label>
+                                <input type="number" class="form-control" id="age" name="age" 
+                                       min="1" max="120" required 
+                                       placeholder="Enter your age">
+                                <div class="form-text">Age is a significant risk factor for diabetes</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="bmi" class="form-label">
+                                    <i class="fas fa-weight me-2"></i>Body Mass Index (BMI)
+                                </label>
+                                <input type="number" class="form-control" id="bmi" name="bmi" 
+                                       min="10" max="60" step="0.1" required 
+                                       placeholder="Enter your BMI">
+                                <div class="form-text">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#bmiModal">
+                                        Don't know your BMI? Click here to calculate
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Family History -->
+                        <div class="mb-4">
+                            <label for="family_history" class="form-label">
+                                <i class="fas fa-users me-2"></i>Family History of Diabetes
+                            </label>
+                            <select class="form-select" id="family_history" name="family_history" required>
+                                <option value="">Select an option</option>
+                                <option value="0">No family history of diabetes</option>
+                                <option value="1">Parent, sibling, or child with diabetes</option>
+                            </select>
+                            <div class="form-text">Family history significantly increases diabetes risk</div>
+                        </div>
+
+                        <!-- Symptoms Section -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">
+                                <i class="fas fa-stethoscope me-2"></i>
+                                Current Symptoms
+                            </h5>
+                            <p class="text-muted mb-3">Check any symptoms you've been experiencing recently:</p>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="symptom-checkbox">
+                                        <label class="checkbox-custom">
+                                            <input type="checkbox" name="frequent_urination" value="1">
+                                            <div>
+                                                <strong><i class="fas fa-restroom me-2"></i>Frequent Urination</strong>
+                                                <small class="d-block text-muted">Urinating more often than usual</small>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="symptom-checkbox">
+                                        <label class="checkbox-custom">
+                                            <input type="checkbox" name="excessive_thirst" value="1">
+                                            <div>
+                                                <strong><i class="fas fa-tint me-2"></i>Excessive Thirst</strong>
+                                                <small class="d-block text-muted">Feeling very thirsty frequently</small>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="symptom-checkbox">
+                                        <label class="checkbox-custom">
+                                            <input type="checkbox" name="fatigue" value="1">
+                                            <div>
+                                                <strong><i class="fas fa-bed me-2"></i>Unusual Fatigue</strong>
+                                                <small class="d-block text-muted">Feeling tired more than normal</small>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="symptom-checkbox">
+                                        <label class="checkbox-custom">
+                                            <input type="checkbox" name="blurred_vision" value="1">
+                                            <div>
+                                                <strong><i class="fas fa-eye me-2"></i>Blurred Vision</strong>
+                                                <small class="d-block text-muted">Vision problems or blurriness</small>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hidden inputs for unchecked symptoms -->
+                        <input type="hidden" name="frequent_urination" value="0">
+                        <input type="hidden" name="excessive_thirst" value="0">
+                        <input type="hidden" name="fatigue" value="0">
+                        <input type="hidden" name="blurred_vision" value="0">
+
+                        <!-- Submit Button -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-calculator me-2"></i>
+                                Assess My Risk
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Information Cards -->
+            <div class="row mt-5">
+                <div class="col-md-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-brain icon-large text-primary"></i>
+                            <h5>AI-Powered</h5>
+                            <p class="text-muted">Uses machine learning to analyze your health data</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-clock icon-large text-success"></i>
+                            <h5>Quick Results</h5>
+                            <p class="text-muted">Get your risk assessment in seconds</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-lightbulb icon-large text-warning"></i>
+                            <h5>Personalized Tips</h5>
+                            <p class="text-muted">Receive customized health recommendations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BMI Calculator Modal -->
+<div class="modal fade" id="bmiModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">BMI Calculator</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="height" class="form-label">Height (cm)</label>
+                        <input type="number" class="form-control" id="height" placeholder="170">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="weight" class="form-label">Weight (kg)</label>
+                        <input type="number" class="form-control" id="weight" placeholder="70">
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button type="button" class="btn btn-primary" onclick="calculateBMI()">Calculate BMI</button>
+                    <div id="bmiResult" class="mt-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Handle checkbox logic for symptoms
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const hiddenInput = document.querySelector(`input[type="hidden"][name="${this.name}"]`);
+            if (hiddenInput) {
+                hiddenInput.disabled = this.checked;
+            }
+        });
+    });
+
+    // BMI Calculator
+    function calculateBMI() {
+        const height = parseFloat(document.getElementById('height').value);
+        const weight = parseFloat(document.getElementById('weight').value);
+        
+        if (height && weight) {
+            const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+            document.getElementById('bmiResult').innerHTML = `
+                <div class="alert alert-info">
+                    Your BMI is: <strong>${bmi}</strong>
+                </div>
+            `;
+            document.getElementById('bmi').value = bmi;
+        } else {
+            document.getElementById('bmiResult').innerHTML = `
+                <div class="alert alert-warning">
+                    Please enter both height and weight
+                </div>
+            `;
+        }
+    }
+
+    // Form validation
+    document.getElementById('diabetesForm').addEventListener('submit', function(e) {
+        const age = document.getElementById('age').value;
+        const bmi = document.getElementById('bmi').value;
+        const familyHistory = document.getElementById('family_history').value;
+
+        if (!age || !bmi || familyHistory === '') {
+            e.preventDefault();
+            alert('Please fill in all required fields');
+        }
+    });
+</script>
+{% endblock %}
